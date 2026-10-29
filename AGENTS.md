@@ -40,6 +40,18 @@ here (a link or a config entry). Don't copy: copies drift.
 - `plan-to-issues` — split `plan.md` from that one proposal.
 - `work-an-issue` — implement one issue, and close it only when its Done when holds.
 - `add-a-page` — add a view or a route on the existing layout.
+- `deploy-to-surge` — publish this repo's digest preview to Surge, only on a domain the human named.
+
+## Deploying
+
+The digest preview publishes to Surge: https://surge.sh/docs/agents. Skill: `deploy-to-surge`.
+
+- One HTML file, saved by a command, from a directory outside this repo. No build step.
+- Domain: the one the human named. Do not invent it.
+- Publish: `npx surge@latest <file.html> <domain>`, only after they say so. The reviewer link is that domain.
+- A second publish to the same domain, with `LANE_MARKER` unset, waits for its own yes.
+- Credentials come from `SURGE_TOKEN`. Never log in, never print the token.
+- Ask before teardown, discard, DNS, or collaborator changes.
 
 ## Rules
 
