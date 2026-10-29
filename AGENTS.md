@@ -36,6 +36,10 @@ Shared skills live in `.agents/skills/`, one folder each, `SKILL.md` inside. Tha
 one source for every harness on the team. If yours loads skills from somewhere else, point it
 here (a link or a config entry). Don't copy: copies drift.
 
+- `plan-to-issues` — split `plan.md` after a human has reviewed the table.
+- `work-an-issue` — implement one issue, and close it only when its Done when holds.
+- `add-a-page` — add a view or a route on the existing layout.
+
 ## Rules
 
 - Never commit `.env`, tokens or previews.
