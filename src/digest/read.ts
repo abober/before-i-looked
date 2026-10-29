@@ -46,6 +46,7 @@ export function readNight(runsDir: string, night: string): NightRead {
   }
   const text = readFileSync(join(runsDir, `${night}.jsonl`), 'utf8');
   const groups = new Map<string, Parsed[]>();
+  const lineCounts: NightRead['lineCounts'] = { ok: 0, retry: 0, fail: 0 };
   let badLines = 0;
 
   for (const raw of text.split('\n')) {
@@ -55,6 +56,7 @@ export function readNight(runsDir: string, night: string): NightRead {
       badLines += 1;
       continue;
     }
+    lineCounts[line.status] += 1;
     const list = groups.get(line.job);
     if (list) list.push(line);
     else groups.set(line.job, [line]);
@@ -78,7 +80,7 @@ export function readNight(runsDir: string, night: string): NightRead {
     });
   }
 
-  return { rows, badLines };
+  return { rows, badLines, lineCounts };
 }
 
 function isMissing(error: unknown): boolean {
@@ -89,7 +91,7 @@ export function loadNight(runsDir: string, night: string): NightRead | undefined
   try {
     const read = readNight(runsDir, night);
     const rows = [...read.rows].sort((a, b) => (a.job < b.job ? -1 : a.job > b.job ? 1 : 0));
-    return { rows, badLines: read.badLines };
+    return { rows, badLines: read.badLines, lineCounts: read.lineCounts };
   } catch (error) {
     if (isMissing(error)) return undefined;
     throw error;
