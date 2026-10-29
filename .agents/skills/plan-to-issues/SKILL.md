@@ -1,6 +1,6 @@
 ---
 name: plan-to-issues
-description: Split this repo's plan.md into GitHub issues with gh, one per unit of work, after a human has reviewed the split. Use when a plan is ready and has no issues yet.
+description: Split this repo's plan.md into GitHub issues with gh, one per unit of work, after challenge-a-change leaves one proposal. Use when a plan is ready and has no issues yet. Ask the human only when that skill reports a blocking gap.
 ---
 
 # plan-to-issues
@@ -12,8 +12,10 @@ in a shell this agent can run.
 
 1. Read `plan.md`, `AGENTS.md` and `docs/adr/`.
 2. Draft the split as a table: title · plan section · scope · done when · blocked by.
-   One issue per unit of work.
-3. **Stop and show the table to the human.** Publish nothing until they approve it.
+   One issue per unit of work. Run `challenge-a-change` on that draft and keep the one
+   proposal it leaves.
+3. Show that table. Publish it when no blocking gap remains. Ask the human only about a gap
+   `challenge-a-change` could not close, one gap at a time.
 4. Ask the human what every issue here must carry (fields, labels, wording), unless it is
    already written down in this session or in the repo.
 5. Create each issue in dependency order, so blocked-by can cite real numbers:
@@ -39,4 +41,5 @@ the same issues, made that way. GitHub issues out of reach altogether: write the
 ## Don'ts
 
 - Don't paste the whole plan into one issue, and don't keep issues only in chat.
-- Don't invent sections the plan doesn't have. If the plan is unclear, ask.
+- Don't invent sections the plan doesn't have. If a gap blocks one reading, ask, as
+  `challenge-a-change` says.
