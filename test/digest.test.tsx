@@ -34,4 +34,19 @@ describe('digest page', () => {
     expect(html).not.toMatch(/<tr class="warn">\s*<td>lane\/sync/);
     expect(html).toContain('2026-10-29T01:30:00+01:00');
   });
+
+  it('returns the same jobs in the same order as the page', async () => {
+    const app = createApp(config);
+    const html = await (await app.request('/digest/2026-10-28')).text();
+    const jsonRes = await app.request('/api/digest/2026-10-28');
+    const body = (await jsonRes.json()) as { rows: { job: string }[] };
+    expect(jsonRes.status).toBe(200);
+    expect(body.rows.map((row) => row.job)).toEqual(jobs);
+    let from = 0;
+    for (const job of body.rows.map((row) => row.job)) {
+      const at = html.indexOf(job, from);
+      expect(at).toBeGreaterThanOrEqual(0);
+      from = at + job.length;
+    }
+  });
 });
