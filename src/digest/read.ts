@@ -80,3 +80,18 @@ export function readNight(runsDir: string, night: string): NightRead {
 
   return { rows, badLines };
 }
+
+function isMissing(error: unknown): boolean {
+  return typeof error === 'object' && error !== null && 'code' in error && error.code === 'ENOENT';
+}
+
+export function loadNight(runsDir: string, night: string): NightRead | undefined {
+  try {
+    const read = readNight(runsDir, night);
+    const rows = [...read.rows].sort((a, b) => (a.job < b.job ? -1 : a.job > b.job ? 1 : 0));
+    return { rows, badLines: read.badLines };
+  } catch (error) {
+    if (isMissing(error)) return undefined;
+    throw error;
+  }
+}
